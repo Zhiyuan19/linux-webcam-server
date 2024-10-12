@@ -1,6 +1,14 @@
 #!/bin/bash
 
-curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+export DEBIAN_FRONTEND=noninteractive
+
+sudo ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+sudo dpkg-reconfigure -f noninteractive tzdata
+
+echo "tzdata tzdata/Areas select Europe" | sudo debconf-set-selections
+echo "tzdata tzdata/Zones/Europe select Stockholm" | sudo debconf-set-selections
+
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs ffmpeg
 npm install ws
 

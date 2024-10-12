@@ -4,18 +4,18 @@ trap : SIGTERM SIGINT
 
 nodejs websocket-relay.js appletreelamp &
 
-python3 -m http.server &
+python3 -m http.server 8001 --bind 100.0.0.40 &
 
 ffmpeg \
 	-f v4l2 \
-		-framerate 60 -video_size 640x480 -i /dev/video0 \
+		-framerate 30 -video_size 640x480 -i /dev/video0 \
 	-f alsa \
-		-ar 44100 -i hw:1 \
+		-ar 44100 -i hw:0,0 \
 	-f mpegts \
 		-codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 \
 		-codec:a mp2 -b:a 128k \
 		-muxdelay 0.001 \
-	http://localhost:8081/appletreelamp
+	http://100.0.0.40:8081/appletreelamp
 
 wait $!
 

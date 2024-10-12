@@ -22,7 +22,7 @@ var STREAM_SECRET = process.argv[2],
 	RECORD_STREAM = false;
 
 // Websocket Server
-var socketServer = new WebSocket.Server({port: WEBSOCKET_PORT, perMessageDeflate: false});
+var socketServer = new WebSocket.Server({port: WEBSOCKET_PORT, hots: '100.0.0.40', perMessageDeflate: false});
 socketServer.connectionCount = 0;
 socketServer.on('connection', function(socket, upgradeReq) {
 	socketServer.connectionCount++;
@@ -83,7 +83,7 @@ var streamServer = http.createServer( function(request, response) {
 		var path = 'recordings/' + Date.now() + '.ts';
 		request.socket.recording = fs.createWriteStream(path);
 	}
-}).listen(STREAM_PORT);
+}).listen(STREAM_PORT, '100.0.0.40');
 
-console.log('Listening for incomming MPEG-TS Stream on http://127.0.0.1:'+STREAM_PORT+'/<secret>');
-console.log('Awaiting WebSocket connections on ws://127.0.0.1:'+WEBSOCKET_PORT+'/');
+console.log('Listening for incomming MPEG-TS Stream on http://100.0.0.40:'+STREAM_PORT+'/<secret>');
+console.log('Awaiting WebSocket connections on ws://100.0.0.40:'+WEBSOCKET_PORT+'/');
